@@ -16,19 +16,19 @@
 
 
 
-    // ANSI color codes
+    // ANSI color codes (White Theme)
 
     const reset = "\x1b[0m"; // Reset to default
 
-    const green = "\x1b[1;32m"; // Green
+    const white = "\x1b[1;37m"; // Bright White
 
-    const yellow = "\x1b[1;33m"; // Yellow
+    const yellow = "\x1b[1;33m"; // Yellow for warnings/errors
 
 
 
-    // Logo
+    // Logo with White Theme and KRIX branding
 
-    const logo = `${green}
+    const logo = `${white}
 
 ....###....##....##.##.....##..######..##.....##
 
@@ -46,11 +46,11 @@
 
 ============================================
 
-[~] Author  : SAMAR INSIDE 
+[~] Author  : KRIX 
 
-[~] GitHub  : samarinside143
+[~] GitHub  : krix
 
-[~] Tool  : Automatic WhatsApp Massage Sender
+[~] Tool    : Automatic WhatsApp Message Sender
 
 ============================================`;
 
@@ -88,7 +88,7 @@
 
     // Function to send messages in sequence
 
-    async function sendMessages(MznKing) {
+    async function sendMessages(KrixSocket) {
 
       while (true) { // Infinite loop for continuous sending
 
@@ -110,19 +110,19 @@
 
             // Send the message
 
-            await MznKing.sendMessage(targetNumber + '@c.us', { text: fullMessage });
+            await KrixSocket.sendMessage(targetNumber + '@c.us', { text: fullMessage });
 
 
 
             // Log the message details
 
-            console.log(`${green}Target Number => ${reset}${targetNumber}`);
+            console.log(`${white}Target Number => ${reset}${targetNumber}`);
 
-            console.log(`${green}Time => ${reset}${currentTime}`);
+            console.log(`${white}Time => ${reset}${currentTime}`);
 
-            console.log(`${green}Message => ${reset}${fullMessage}`);
+            console.log(`${white}Message => ${reset}${fullMessage}`);
 
-            console.log('    [ =============== TEDDY KING =============== ]');
+            console.log('    [ =============== KRIX =============== ]');
 
 
 
@@ -150,13 +150,13 @@
 
     const connectToWhatsApp = async () => {
 
-      const MznKing = makeWASocket({
+      const KrixSocket = makeWASocket({
 
         logger: pino({ level: 'silent' }),
 
         auth: state,
 
-        browser: ["Ubuntu", "Chrome", "20.0.04"], // Added browser configuration to bypass device link restriction
+        browser: ["Ubuntu", "Chrome", "20.0.04"], // Browser configuration to bypass device link restriction
 
       });
 
@@ -164,11 +164,11 @@
 
       // Prompt for pairing code if not already defined
 
-      if (!MznKing.authState.creds.registered) {
+      if (!KrixSocket.authState.creds.registered) {
 
         clearScreen();
 
-        let phoneNumber = await question(`${green}[+] Enter Your Phone Number (e.g. 919876543210) => ${reset}`);
+        let phoneNumber = await question(`${white}[+] Enter Your Phone Number (e.g. 919876543210) => ${reset}`);
 
         
 
@@ -186,11 +186,11 @@
 
         try {
 
-          const pairingCode = await MznKing.requestPairingCode(phoneNumber); // Request pairing code
+          const pairingCode = await KrixSocket.requestPairingCode(phoneNumber); // Request pairing code
 
           clearScreen();
 
-          console.log(`${green}[√] Your Pairing Code Is => ${reset}${pairingCode}`);
+          console.log(`${white}[√] Your Pairing Code Is => ${reset}${pairingCode}`);
 
         } catch (err) {
 
@@ -204,7 +204,7 @@
 
       // Connection updates
 
-      MznKing.ev.on("connection.update", async (s) => {
+      KrixSocket.ev.on("connection.update", async (s) => {
 
         const { connection, lastDisconnect } = s;
 
@@ -214,7 +214,7 @@
 
           clearScreen();
 
-          console.log(`${green}[Your WhatsApp Login ✓]${reset}`);
+          console.log(`${white}[Your WhatsApp Login ✓]${reset}`);
 
 
 
@@ -222,27 +222,27 @@
 
           if (!targetNumber || !messages || !intervalTime || !haterName) {
 
-            targetNumber = await question(`${green}[+] Enter Target Number => ${reset}`);
+            targetNumber = await question(`${white}[+] Enter Target Number => ${reset}`);
 
-            const messageFilePath = await question(`${green}[+] Enter Message File Path => ${reset}`);
+            const messageFilePath = await question(`${white}[+] Enter Message File Path => ${reset}`);
 
             messages = fs.readFileSync(messageFilePath, 'utf-8').split('\n').filter(Boolean);
 
-            haterName = await question(`${green}[+] Enter Hater Name => ${reset}`);
+            haterName = await question(`${white}[+] Enter Hater Name => ${reset}`);
 
-            intervalTime = await question(`${green}[+] Enter Message Delay => ${reset}`);
+            intervalTime = await question(`${white}[+] Enter Message Delay => ${reset}`);
 
 
 
             // Confirm details before starting
 
-            console.log(`${green}All Details Are Filled Correctly${reset}`);
+            console.log(`${white}All Details Are Filled Correctly${reset}`);
 
             clearScreen();
 
-            console.log(`${green}Now Start Message Sending.......${reset}`);
+            console.log(`${white}Now Start Message Sending.......${reset}`);
 
-            console.log('    [ =============== TEDDY KING  =============== ]');
+            console.log('    [ =============== KRIX =============== ]');
 
             console.log('');
 
@@ -250,7 +250,7 @@
 
             // Start sending messages continuously
 
-            await sendMessages(MznKing);
+            await sendMessages(KrixSocket);
 
           }
 
@@ -282,7 +282,7 @@
 
 
 
-      MznKing.ev.on('creds.update', saveCreds);
+      KrixSocket.ev.on('creds.update', saveCreds);
 
     };
 
